@@ -11,8 +11,14 @@ export default defineConfig({
     tailwindcss(),
   ],
   resolve: {
+    dedupe: ['axios'],
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      external: [],
+    }
+  }
 })
