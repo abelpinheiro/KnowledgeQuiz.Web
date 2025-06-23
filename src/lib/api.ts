@@ -1,6 +1,6 @@
-import axios from "axios";
+//import axios from "axios";
 
-const api = axios.create({
+/*const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
 
@@ -16,4 +16,9 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-export default api;
+export default api;*/
+
+export async function fetchData() {
+  // Retorna algo mockado só para teste
+  return Promise.resolve({ data: 'mock data' });
+}
