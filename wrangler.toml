@@ -1,3 +1,0 @@
-name = "knowledgequiz-web"
-compatibility_date = "2025-06-23"
-assets = { directory = "build" }
