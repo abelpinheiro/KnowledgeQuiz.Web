@@ -14,6 +14,7 @@ export default defineConfig({
     dedupe: ['axios'],
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      "@radix-ui/react-label": path.resolve(__dirname, "node_modules/@radix-ui/react-label"),
     },
   },
   build: {
