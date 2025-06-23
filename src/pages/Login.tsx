@@ -1,27 +1,45 @@
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Database, Eye, EyeOff } from 'lucide-react';
+import { Database, Eye, EyeOff, AlertCircle } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { toast } from "sonner";
+
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const { login, isLoading } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    
-    // Simulate login process
-    setTimeout(() => {
-      setIsLoading(false);
-      // In a real app, handle login logic here
-      console.log('Login attempt:', { email, password });
-    }, 2000);
+    setError('');
+
+    if (!email || !password) {
+      setError('Please fill in all fields');
+      return;
+    }
+
+    const success = await login(email, password);
+
+    if (success) {
+      toast("Login successful", {
+        description: "Welcome back to QuizHub!",
+      });
+      navigate('/dashboard');
+    } else {
+      setError('Invalid email or password. Please try again.');
+      toast("Login failed", {
+        description: "Invalid credentials. Please check your email and password.",
+      });
+    }
   };
 
   return (
@@ -48,6 +66,12 @@ const Login = () => {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
+              {error && (
+                <div className="flex items-center space-x-2 text-red-600 bg-red-50 p-3 rounded-md">
+                  <AlertCircle className="h-4 w-4" />
+                  <span className="text-sm">{error}</span>
+                </div>
+              )}
               <div>
                 <Label htmlFor="email">Email address</Label>
                 <Input
@@ -59,6 +83,7 @@ const Login = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   className="mt-1"
                   placeholder="Enter your email"
+                  disabled={isLoading}
                 />
               </div>
 
@@ -73,12 +98,14 @@ const Login = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter your password"
+                    disabled={isLoading}
                     className="pr-10"
                   />
                   <button
                     type="button"
                     className="absolute inset-y-0 right-0 pr-3 flex items-center"
                     onClick={() => setShowPassword(!showPassword)}
+                    disabled={isLoading}
                   >
                     {showPassword ? (
                       <EyeOff className="h-4 w-4 text-gray-400" />
@@ -96,6 +123,7 @@ const Login = () => {
                     name="remember-me"
                     type="checkbox"
                     className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    disabled={isLoading}
                   />
                   <Label htmlFor="remember-me" className="ml-2 text-sm">
                     Remember me
