@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
-//import api from "@/lib/api";
+import api from "@/lib/api";
 
 interface User {
   id: string;
@@ -58,17 +58,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       setIsLoading(true);
 
-      //const response = await api.post('/api/auth/login', { email, password });
-      //const data = response.data;
+      const response = await api.post('/api/auth/login', { email, password });
+      const data = response.data;
 
       const userData: User = {
-        id: 'data.userId || data.id',
-        email: /*data.*/email,
-        name: 'data.name || data.fullName',
-        role: 'data.role || user',
+        id: data.userId || data.id,
+        email: data.email,
+        name: data.name || data.fullName,
+        role: data.role || user,
       };
 
-      localStorage.setItem('authToken', 'data.token' + password);
+      localStorage.setItem('authToken', 'data.token');
       localStorage.setItem('userData', JSON.stringify(userData));
 
       setUser(userData);
