@@ -11,15 +11,17 @@ export default defineConfig({
     tailwindcss(),
   ],
   resolve: {
-    dedupe: ['axios'],
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      "axios": path.resolve(__dirname, "node_modules/axios"),
+      "@radix-ui/react-slot": path.resolve(__dirname, "node_modules/@radix-ui/react-slot"),
       "@radix-ui/react-label": path.resolve(__dirname, "node_modules/@radix-ui/react-label"),
     },
+    preserveSymlinks: true,
   },
   build: {
     rollupOptions: {
-      external: ['axios'],
+      external: [],
     }
   }
 })
