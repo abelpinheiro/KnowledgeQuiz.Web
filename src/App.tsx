@@ -7,6 +7,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { DashboardLayout } from "./components/layout/DashboardLayout";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
+import NotFound from "./pages/NotFound";
 
 
 const queryClient = new QueryClient();
@@ -37,12 +38,13 @@ const App = () => (
               path="/" 
               element={
                 <ProtectedRoute>
-                  {<DashboardLayout />}
+                  <DashboardLayout />
                 </ProtectedRoute>
               }
             >
               <Route path="dashboard" element={<Dashboard />} />
             </Route>
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
