@@ -65,10 +65,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         id: data.userId || data.id,
         email: data.email,
         name: data.name || data.fullName,
-        role: data.role || user,
+        role: data.role,
       };
 
-      localStorage.setItem('authToken', 'data.token');
+      localStorage.setItem('authToken', data.token);
       localStorage.setItem('userData', JSON.stringify(userData));
 
       setUser(userData);
